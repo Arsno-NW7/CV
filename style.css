@@ -1,0 +1,396 @@
+/* ---------- OPTION 2 : "LE TECH" (Version Poussée v3) ---------- */
+
+/* --- Importation des polices --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* --- Configuration Globale --- */
+@page { size: A4; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Palette "Tech" */
+  --bg-dark: #111111;
+  --bg-dark-gradient: #151515; /* Pour le fond animé */
+  --bg-card: #1C1C1C;
+  --card-border: #333333;
+  --text-primary: #F0F0F0;
+  --text-secondary: #999999;
+  --accent-orange: #FF6B00;
+  --accent-orange-hover: #FF8D3F;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 14px;
+  padding: 40px 0;
+  
+  /* Fond animé */
+  background: linear-gradient(-45deg, var(--bg-dark), var(--bg-dark-gradient), var(--bg-dark), var(--bg-dark-gradient));
+  background-size: 400% 400%;
+  animation: animatedBackground 15s ease infinite;
+}
+
+@keyframes animatedBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* --- Structure Principale --- */
+.cv-page {
+  width: 210mm;
+  min-height: 297mm;
+  display: grid;
+  /* MODIFIÉ : Colonne de gauche élargie pour les tags */
+  grid-template-columns: 38% 62%;
+  background-color: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5),
+              0 0 40px rgba(0,0,0,0.4);
+  overflow: hidden;
+  margin: auto;
+}
+
+/* --- Colonne de Gauche (Sidebar) --- */
+.sidebar {
+  background: var(--bg-dark); /* Plus sombre */
+  border-right: 1px solid var(--card-border);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* Nécessaire pour l'animation de balayage */
+  overflow: hidden; /* Cache le balayage qui dépasse */
+}
+
+/* NOUVEAU : Animation "Balayage" (Shine) */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05), /* Reflet subtil */
+    transparent
+  );
+  transform: skewX(-25deg);
+  animation: shine 8s infinite linear;
+  animation-delay: 3s;
+  z-index: 1; /* Au-dessus du fond mais sous le contenu */
+}
+
+@keyframes shine {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}
+
+/* Le contenu doit être au-dessus du balayage */
+.sidebar-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Profil (Photo & Nom) */
+.profile {
+  text-align: center;
+  margin-bottom: 25px;
+}
+.photo {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--accent-orange);
+  /* Animation de pulsation constante */
+  box-shadow: 0 0 30px rgba(255, 107, 0, 0.4);
+  animation: pulseGlow 2.5s infinite alternate;
+  transition: transform 0.3s ease;
+}
+.profile:hover .photo {
+  transform: scale(1.05);
+}
+
+@keyframes pulseGlow {
+  from {
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.4);
+    border-color: var(--accent-orange);
+  }
+  to {
+    box-shadow: 0 0 50px rgba(255, 107, 0, 0.7);
+    border-color: var(--accent-orange-hover);
+  }
+}
+
+.name {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.job-title {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--accent-orange);
+}
+
+/* Sections de la Sidebar */
+.section { margin-bottom: 25px; }
+.section h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 5px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-orange);
+}
+.section p {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+.contact-list { list-style: none; }
+.contact-list li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 300;
+  color: var(--text-secondary);
+}
+.contact-list span { margin-right: 12px; font-size: 1.1rem; }
+.contact-list a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.contact-list a:hover { color: var(--accent-orange-hover); }
+
+/* Tags (Langues, Compétences) */
+.tag-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Espace entre les tags */
+}
+.tag-list li {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  /* MODIFIÉ : Tags plus compacts */
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 400;
+  transition: all 0.2s ease-out;
+}
+.tag-list li:hover {
+  background: var(--accent-orange);
+  border-color: var(--accent-orange);
+  color: var(--bg-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--accent-orange-hover);
+}
+
+/* --- Colonne de Droite (Contenu) --- */
+.main-content {
+  padding: 20px;
+  background: var(--bg-card);
+  perspective: 1000px; /* Pour l'effet 3D */
+}
+
+/* Cartes (Conteneurs des sections) */
+.card-glass {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 25px;
+  margin: 0 15px 20px 15px;
+  transition: all 0.2s ease-out;
+}
+.card-glass:hover {
+  transform: translateY(-5px) rotateY(3deg) rotateX(2deg);
+  border-color: var(--accent-orange);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 
+              0 0 25px var(--accent-orange-hover);
+}
+
+/* Titres H2 de la colonne droite */
+.main-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--accent-orange); /* Base */
+  position: relative;
+  overflow: hidden; /* Pour l'animation de dessin */
+}
+.main-title::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: var(--accent-orange-hover);
+  transform: translateX(-101%);
+  animation: drawUnderline 0.8s ease-out forwards;
+  animation-delay: inherit; /* Hérite du délai de .anim */
+}
+
+@keyframes drawUnderline {
+  to { transform: translateX(0); }
+}
+
+/* Items */
+.item-simple { margin-bottom: 15px; }
+.item-simple h3, .timeline-item h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+.item-simple .date, .timeline-item .date {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.item-simple ul, .timeline-item ul {
+  padding-left: 20px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+.item-simple ul li, .timeline-item ul li { margin-bottom: 5px; }
+
+/* Timeline (Expériences) */
+.timeline {
+  position: relative;
+  padding-left: 30px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 3px;
+  height: calc(100% - 10px);
+  background: var(--card-border);
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+.dot {
+  position: absolute;
+  left: -30px;
+  top: 5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--bg-dark);
+  border: 3px solid var(--accent-orange);
+  z-index: 1;
+  animation: pulseGlow 2.5s infinite alternate;
+  animation-delay: inherit;
+  transition: all 0.2s ease;
+}
+.timeline-item:hover .dot {
+  transform: scale(1.2);
+  background: var(--accent-orange);
+  box-shadow: 0 0 10px var(--accent-orange-hover);
+}
+.timeline-item:hover h3 {
+  color: var(--accent-orange-hover);
+}
+
+/* NOUVEAU : Styles pour la section Passions */
+.passion-list {
+  list-style: none;
+  padding: 0;
+}
+.passion-list li {
+  margin-bottom: 15px;
+}
+.passion-list li:last-child {
+  margin-bottom: 0;
+}
+.passion-list h3 {
+  color: var(--accent-orange-hover);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 3px;
+}
+.passion-list p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* --- Animation de Chargement --- */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.anim {
+  opacity: 0;
+  animation: slideInUp 0.7s ease-out forwards;
+}
+
+/* --- Version Impression --- */
+@media print {
+  /* ... (le CSS d'impression reste le même) ... */
+  :root {
+    --bg-dark: #ffffff;
+    --bg-card: #ffffff;
+    --card-border: #eeeeee;
+    --text-primary: #000000;
+    --text-secondary: #555555;
+    --accent-orange: #FF6B00;
+  }
+  body { background: #fff; padding: 0; color: #000; }
+  @keyframes animatedBackground { 0% { background-position: 0 0; } }
+  .cv-page {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+    grid-template-columns: 38% 62%;
+  }
+  .sidebar { background: #f8f8f8; border-right: 1px solid #ccc; overflow: visible; }
+  .sidebar::before { display: none; }
+  .sidebar-content { position: static; }
+  .photo { animation: none; border-color: #ccc; box-shadow: none; }
+  .tag-list li { background: #eee; border-color: #ccc; color: #000; }
+  .main-content { padding: 20px; perspective: none; }
+  .card-glass {
+    background: #fff;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+  }
+  .card-glass:hover { transform: none; box-shadow: none; border: none; }
+  .main-title { border-bottom-color: #000; }
+  .main-title::after { display: none; }
+  .timeline::before { background: #ccc; }
+  .dot { animation: none; border-color: #000; background: #fff; }
+  .anim { animation: none; opacity: 1; }
+  .passion-list h3 { color: #000; }
+  .passion-list p { color: #555; }
+}
